@@ -2,7 +2,6 @@
 const modalBg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const closeModalButton = document.getElementById("close");
-const formData = document.querySelectorAll(".formData");
 
 // Launch and close modal function
 const launchModal = () => {
