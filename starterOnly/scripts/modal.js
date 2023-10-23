@@ -15,6 +15,3 @@ const closeModal = () => {
 // Launch and close modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 closeModalButton.addEventListener("click", closeModal);
-
-
-
