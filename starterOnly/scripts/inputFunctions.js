@@ -1,6 +1,11 @@
 import { hideErrorMessage, setErrorMessage } from "./errorsMessages.js";
 
-// Show or hide error message according input value
+/** Show or hide error message according input value
+ * @param regex {RegExp}
+ * @param element {HTMLInputElement}
+ * @param message {string}
+ * @returns {boolean}
+ */
 export const checkInputValue = (regex, element, message) => {
   if (!regex.test(element.value)) {
     setErrorMessage(element, message);
@@ -10,14 +15,23 @@ export const checkInputValue = (regex, element, message) => {
   return true;
 };
 
-// Check value of input with event listener
-export const checkInputValueEvent = (element, regex, message) => {
+/** Check value of input with event listener
+ * @param element {HTMLInputElement}
+ * @param regex {RegExp}
+ * @param message {string}
+ */
+export const setInputValueEvent = (element, regex, message) => {
   element.addEventListener("input", () => checkInputValue(regex, element, message));
 };
 
-// Check if one city is selected
+
+/** Check if one city is selected
+ * @param cities { NodeListOf<HTMLInputElement>}
+ * @param message {string}
+ * @returns {boolean}
+ */
 export const checkIfCitySelected = (cities, message) => {
-  const isChecked = Array.from(cities).some(radio => radio.checked);
+  const isChecked = Array.from(cities).some(city => city.checked);
   if (!isChecked) {
     setErrorMessage(cities[0], message);
     return false;
@@ -26,13 +40,17 @@ export const checkIfCitySelected = (cities, message) => {
   return true;
 };
 
-// Check if checkbox is checked
+/**  Check if checkbox is checked
+ * @param element {HTMLInputElement}
+ * @param message {string}
+ * @returns {boolean}
+ */
 export const checkIfCheckBoxIsChecked = (element, message) => {
   if (!element.checked) {
     setErrorMessage(element, message);
     return false;
   } else {
-    hideErrorMessage(element, message);
+    hideErrorMessage(element);
     return true;
   }
 };

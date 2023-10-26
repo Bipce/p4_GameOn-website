@@ -1,10 +1,13 @@
 import { errorMessage } from "./errorsMessages.js";
+import { form, successPopup } from "./constants.js";
 import {
-  checkIfCheckBoxIsChecked, checkIfCitySelected, checkInputValue, checkInputValueEvent,
+  checkIfCheckBoxIsChecked,
+  checkIfCitySelected,
+  checkInputValue,
+  setInputValueEvent,
 } from "./inputFunctions.js";
 
 // Form and form input
-const form = document.querySelector("form");
 const firstnameElement = document.getElementById("first");
 const lastnameElement = document.getElementById("last");
 const emailElement = document.getElementById("email");
@@ -13,9 +16,6 @@ const quantityElement = document.getElementById("quantity");
 // Radio and check input locations
 const allBtnRadio = document.querySelectorAll(`input[name="location"]`);
 const conditionCheckBox = document.getElementById("checkbox1");
-
-// Success popup for after validation
-const successPopup = document.getElementById("success-popup");
 
 // RegEx
 const regExName = new RegExp("[a-zA-Z0-9-_]{2}");
@@ -32,14 +32,13 @@ let user = {
 };
 
 // Check value of input with event listener
-checkInputValueEvent(firstnameElement, regExName, errorMessage.name);
-checkInputValueEvent(lastnameElement, regExName, errorMessage.name);
-checkInputValueEvent(emailElement, regexEmail, errorMessage.email);
-checkInputValueEvent(birthdateElement, regExBirthdate, errorMessage.birthdate);
-checkInputValueEvent(quantityElement, regExQuantity, errorMessage.quantity);
+setInputValueEvent(firstnameElement, regExName, errorMessage.name);
+setInputValueEvent(lastnameElement, regExName, errorMessage.name);
+setInputValueEvent(emailElement, regexEmail, errorMessage.email);
+setInputValueEvent(birthdateElement, regExBirthdate, errorMessage.birthdate);
+setInputValueEvent(quantityElement, regExQuantity, errorMessage.quantity);
 // Check if one city is selected and hide error message when selected
-allBtnRadio.forEach(btn => btn.addEventListener("change",
-  () => checkIfCitySelected(allBtnRadio, errorMessage.city)));
+allBtnRadio.forEach(btn => btn.addEventListener("change", () => checkIfCitySelected(allBtnRadio, errorMessage.city)));
 // Check if condition checkbox is checked
 conditionCheckBox.addEventListener("change", () => checkIfCheckBoxIsChecked(conditionCheckBox, errorMessage.condition));
 
@@ -47,26 +46,27 @@ conditionCheckBox.addEventListener("change", () => checkIfCheckBoxIsChecked(cond
 const validate = (e) => {
   e.preventDefault();
 
-  // Check if all conditions are valid
-  const isFirstnameValid = checkInputValue(regExName, firstnameElement, errorMessage.name);
-  const isLastnameValid = checkInputValue(regExName, lastnameElement, errorMessage.name);
-  const isEmailValid = checkInputValue(regexEmail, emailElement, errorMessage.email);
-  const isBirthdateValid = checkInputValue(regExBirthdate, birthdateElement, errorMessage.birthdate);
-  const isQuantityValid = checkInputValue(regExQuantity, quantityElement, errorMessage.quantity);
-  const ifCitySelected = checkIfCitySelected(allBtnRadio, errorMessage.city);
-  const isConditionChecked = checkIfCheckBoxIsChecked(conditionCheckBox, errorMessage.condition);
+  // User response
+  const userResponse = {
+    firstname: checkInputValue(regExName, firstnameElement, errorMessage.name),
+    lastname: checkInputValue(regExName, lastnameElement, errorMessage.name),
+    email: checkInputValue(regexEmail, emailElement, errorMessage.email),
+    birthdate: checkInputValue(regExBirthdate, birthdateElement, errorMessage.birthdate),
+    quantity: checkInputValue(regExQuantity, quantityElement, errorMessage.quantity),
+    city: checkIfCitySelected(allBtnRadio, errorMessage.city),
+    condition: checkIfCheckBoxIsChecked(conditionCheckBox, errorMessage.condition),
+  };
 
+  // Check if all string return true
+  const isAllValid = Object.keys(userResponse).every(s => userResponse[s]);
 
-  if (isFirstnameValid && isLastnameValid && isEmailValid && isBirthdateValid && isQuantityValid && ifCitySelected
-    && isConditionChecked) {
-    user.firstname = firstnameElement.value;
-    user.lastname = lastnameElement.value;
-    user.email = emailElement.value;
-    user.quantity = quantityElement.value;
-
+  if (isAllValid) {
     // Make modal success appear when validation is good
     successPopup.style.display = "flex";
     form.style.visibility = "hidden";
+
+    // Reset form
+    form.reset();
   }
 };
 

@@ -8,18 +8,26 @@ export const errorMessage = {
   condition: "Veuillez valider les conditions générales.",
 };
 
-// Check state of error message
+/** Check state of error message
+ * @param element {HTMLInputElement}
+ * @param state {string}
+ */
 export const setErrorVisible = (element, state) => {
   element.parentElement.setAttribute("data-error-visible", state);
 };
 
-// Show message error is state is true
+/** Show message error is state is true
+ * @param element {HTMLInputElement}
+ * @param message {string}
+ */
 export const setErrorMessage = (element, message) => {
-  setErrorVisible(element, true);
+  setErrorVisible(element, "true");
   element.parentElement.setAttribute("data-error", message);
 };
 
-// Hide message error if state is false
+/** Hide message error if state is false
+ * @param element {HTMLInputElement}
+ */
 export const hideErrorMessage = (element) => {
-  setErrorVisible(element, false);
+  setErrorVisible(element, "false");
 };
