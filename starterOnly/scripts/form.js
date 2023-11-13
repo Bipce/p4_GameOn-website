@@ -23,14 +23,6 @@ const regexEmail = new RegExp("^[a-z0-9-_.]+@[a-z]+[.][a-z]{2,3}$");
 const regExQuantity = new RegExp("[0-9]");
 const regExBirthdate = new RegExp("^[0-9]{4}-[0-9]{2}-[0-9]{2}$");
 
-// User
-let user = {
-  firstname: "",
-  lastname: "",
-  email: "",
-  quantity: 0,
-};
-
 // Check value of input with event listener
 setInputValueEvent(firstnameElement, regExName, errorMessage.name);
 setInputValueEvent(lastnameElement, regExName, errorMessage.name);
